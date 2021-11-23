@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+if [ $SHELL != $(which zsh) ]; then
+	echo $(which zsh) | sudo lchsh $USER
+fi
