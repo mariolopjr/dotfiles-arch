@@ -5,3 +5,7 @@ set -eufo pipefail
 if [ $SHELL != $(which zsh) ]; then
 	echo $(which zsh) | sudo lchsh $USER
 fi
+
+mkdir -p ~/.local/share/konsole
+cd ~/.local/share/konsole
+curl -fLo "Material Palenight.colorscheme" https://raw.githubusercontent.com/kaicataldo/material.vim/main/terminal-colors/konsole/Material%20Palenight.colorscheme
