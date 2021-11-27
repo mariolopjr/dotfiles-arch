@@ -44,7 +44,7 @@ EOF
 fi
 
 # Install base packages
-pacstrap /mnt git neovim zsh plasma-meta kde-applications firefox rustup libvirt qemu qemu-arch-extra virt-manager vagrant tmux fzf fd x264 steam ripgrep python-pip mgba-qt ktorrent guitarix ppsspp pcsx2
+pacstrap /mnt git neovim zsh plasma-meta kde-applications firefox rustup libvirt qemu qemu-arch-extra virt-manager vagrant tmux fzf fd x264 steam ripgrep python-pip mgba-qt ktorrent guitarix ppsspp pcsx2 starship
 
 # Enable SDDM
 systemctl enable sddm --root=/mnt &>/dev/null
