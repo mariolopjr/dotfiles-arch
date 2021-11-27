@@ -8,6 +8,10 @@ print () {
     echo -e "\e[1m\e[93m[ \e[92m•\e[93m ] \e[4m$1\e[0m"
 }
 
+# Enable multilib repo
+sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
+sed -i "/\[multilib\]/,/Include/"'s/^#//' /mnt/etc/pacman.conf
+
 # Install NVIDIA proprietary driver if necessary
 read -r -p "Do you want to install nvidia proprietary driver? [y/N]? " response
 response=${response,,}
@@ -40,4 +44,7 @@ EOF
 fi
 
 # Install base packages
-pacstrap /mnt git neovim zsh plasma-meta firefox rustup libvirt qemu qemu-arch-extra virt-manager vagrant tmux fzf fd x264 steam ripgrep python python-pip mgba-qt ktorrent guitarix ppsspp pcsx2
+pacstrap /mnt git neovim zsh plasma-meta kde-applications firefox rustup libvirt qemu qemu-arch-extra virt-manager vagrant tmux fzf fd x264 steam ripgrep python-pip mgba-qt ktorrent guitarix ppsspp pcsx2
+
+# Enable SDDM
+systemctl enable sddm --root=/mnt &>/dev/null
