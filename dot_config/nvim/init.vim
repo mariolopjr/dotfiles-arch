@@ -16,7 +16,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
 Plug 'w0rp/ale'
-"Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'neovim/nvim-lspconfig'
 Plug 'honza/vim-snippets'
 Plug 'junegunn/fzf.vim'
 Plug 'Yggdroot/indentLine'
@@ -45,3 +45,17 @@ let g:material_terminal_italics = 1
 let g:material_theme_style = 'palenight'
 let g:airline_theme='material'
 colorscheme material
+
+" Enable language servers
+lua << EOF
+require'lspconfig'.bashls.setup{}
+require'lspconfig'.dockerls.setup{}
+require'lspconfig'.eslint.setup{}
+require'lspconfig'.gdscript.setup{}
+require'lspconfig'.jsonls.setup{}
+require'lspconfig'.vimls.setup{}
+EOF
+
+" Lanuage server commands
+autocmd BufWritePre <buffer> <cmd>EslintFixAll<CR>
+
