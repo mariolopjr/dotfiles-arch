@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+# Track a single line in a config file:
+# this template from the `~/.local/share/chezmoi/private_dot_config` folder receives the content of the target `~/.config/konsolerc` file via stdin, uses regex to find the single "DefaultProfile" config option we track, which is replaced by our tracked value. Everything else is passed as is. Empty target file is replaced by the default config defined in this temlpate
+
+from sys import stdin
+from pathlib import Path
+import re
+
+# 1.1 set the default script content for when target file is empty/doesn't exist
+config_header="""\
+[Desktop Entry]\
+"""
+# 1.2 same as 1.1, but for the line we track in chezmoi
+config_tracked_line="""\
+DefaultProfile=Profile 1.profile\
+"""
+config_end="""\
+\
+[MainWindow]\
+"""
+
+# 2. receive the contents of the target file from chezmoi via stdin
+cur_config = stdin.read()
+
+# 3.1. pass the defaults defined above for when target is empty
+if cur_config == '':
+  print(config_header)
+  print(config_tracked_line)
+  print(config_end)
+# 3.2. pass everything as is except for the config option we track
+else:
+  for line in cur_config.splitlines():
+    pattern = r'^DefaultProfile=.*$'
+    if re.match(pattern,line):
+      print(config_tracked_line)
+    else:
+      print(line)

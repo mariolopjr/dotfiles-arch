@@ -20,7 +20,7 @@ read -r -p "Do you want to install nvidia proprietary driver? [y/N]? " response
 response=${response,,}
 if [[ "$response" =~ ^(yes|y)$ ]]; then
     print "Installing nvidia driver."
-    pacstrap /mnt nvidia
+    pacstrap /mnt nvidia nvidia-utils
     echo "MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)" >> /mnt/etc/mkinitcpio.conf
 
     print "Rebuilding initramfs"
@@ -46,8 +46,38 @@ Exec=/bin/sh -c 'while read -r trg; do case $trg in linux) exit 0; esac; done; /
 EOF
 fi
 
-# Install base packages
-pacstrap /mnt git neovim zsh plasma-meta kde-applications firefox rustup libvirt qemu qemu-arch-extra virt-manager vagrant tmux fzf fd x264 steam ripgrep python-pip mgba-qt ktorrent guitarix ppsspp pcsx2 starship nodejs shellcheck
+# General packages
+pacstrap /mnt zsh starship ripgrep exa fd wget fzf unzip zip dialog \
+	pacman-contrib bat ncdu pv zsh-completions watchexec tmux \
+	# Debugging tools
+	lsof bind-tools mtr socat htop iotop openbsd-netcat strace tcpdump whois \
+	# Filesystems
+	e2fsprogs exfat-utils dosfstools f2fs-tools \
+	# Other tools
+	git jq ddrescue shellcheck \
+	# Docker
+	podman podman-dnsname buildah dnsmasq \
+	# Virtualization
+	qemu qemu-arch-extra virt-manager vagrant \
+	# Languages
+	rustup clang go \
+	# Python tools
+	python-black python-pycodestyle python-pylint flake8 python-pip \
+	# Node tools
+	nodejs prettier \
+	# Text
+	vale \
+	# KDE
+	plasma-meta breeze breeze-grub kcmutils konsole kdeplasma-addons \
+	quota-tools sddm rng-tools archlinux-themes-sddm \
+	# Applications
+	firefox discord ktorrent guitarix kate \
+	# Utilities
+	redshift python-gobject pipewire scrot arandr x264 \
+	# Fonts
+	noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra \
+	# Gaming
+	steam mgba-qt ppsspp pcsx2
 
 # Enable SDDM
 systemctl enable sddm --root=/mnt &>/dev/null

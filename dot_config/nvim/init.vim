@@ -53,9 +53,12 @@ require'lspconfig'.dockerls.setup{}
 require'lspconfig'.eslint.setup{}
 require'lspconfig'.gdscript.setup{}
 require'lspconfig'.jsonls.setup{}
+require'lspconfig'.pyright.setup{}
 require'lspconfig'.vimls.setup{}
 EOF
 
-" Lanuage server commands
+" Language server commands
 autocmd BufWritePre <buffer> <cmd>EslintFixAll<CR>
 
+" Autocommands
+autocmd BufWritePost ~/.local/share/chezmoi/* ! chezmoi apply --source-path "%"
