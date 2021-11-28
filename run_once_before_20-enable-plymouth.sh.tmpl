@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Tweak mkinitcpio and re-generate
+sudo sed -i "s/systemd/systemd sd-plymouth/g /etc/mkinitcpio.conf"
+sudo mkinitcpio -p linux
+
+# Tweak GRUB
+sudo sed -i "s/quiet/quiet splash vt.global_cursor_default=0/g" /etc/default/grub
+echo 'GRUB_THEME="/boot/grub/themes/breeze/theme.txt"' | sudo tee -a /etc/default/grub
+sudo cp -R /usr/share/grub/themes/breeze /boot/grub/themes/
+sudo grub-mkconfig -o /boot/grub/grub.cfg &>/dev/null
+
+# Enable plymouth service
+sudo systemctl disable sddm
+sudo systemctl enable sddm-plymouth
