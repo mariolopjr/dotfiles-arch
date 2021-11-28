@@ -49,34 +49,20 @@ fi
 # General packages
 pacstrap /mnt zsh starship ripgrep exa fd wget fzf unzip zip dialog \
 	pacman-contrib bat ncdu pv zsh-completions watchexec tmux \
-	# Debugging tools
 	lsof bind-tools mtr socat htop iotop openbsd-netcat strace tcpdump whois \
-	# Filesystems
 	e2fsprogs exfat-utils dosfstools f2fs-tools \
-	# Other tools
-	git jq ddrescue shellcheck \
-	# Docker
+	git jq ddrescue shellcheck  \
 	podman podman-dnsname buildah dnsmasq \
-	# Virtualization
 	qemu qemu-arch-extra virt-manager vagrant \
-	# Languages
 	rustup clang go \
-	# Python tools
 	python-black python-pycodestyle python-pylint flake8 python-pip \
-	# Node tools
 	nodejs prettier \
-	# Text
 	vale \
-	# KDE
 	plasma-meta breeze breeze-grub kcmutils konsole kdeplasma-addons \
 	quota-tools sddm rng-tools archlinux-themes-sddm \
-	# Applications
 	firefox discord ktorrent guitarix kate \
-	# Utilities
 	redshift python-gobject pipewire scrot arandr x264 \
-	# Fonts
 	noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra \
-	# Gaming
 	steam mgba-qt ppsspp pcsx2
 
 # Enable SDDM
