@@ -48,7 +48,7 @@ fi
 
 # General packages
 pacstrap /mnt zsh starship ripgrep exa fd wget fzf unzip zip dialog \
-	pacman-contrib bat ncdu pv zsh-completions watchexec tmux \
+	pacman-contrib bat ncdu pv zsh-completions watchexec tmux xclip \
 	lsof bind-tools mtr socat htop iotop openbsd-netcat strace tcpdump whois \
 	e2fsprogs exfat-utils dosfstools f2fs-tools \
 	git jq ddrescue shellcheck  \
