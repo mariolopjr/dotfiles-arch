@@ -3,7 +3,18 @@ if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
 then
     PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 fi
-export PATH
+
+# node
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# go
+export GOPATH="$HOME/.local/go"
+if ! [[ "$PATH" =~ "$GOPATH/bin:" ]]
+then
+    PATH="$GOPATH/bin:$PATH"
+fi
 
 # Set editor
 export EDITOR="/usr/bin/nvim"
@@ -32,12 +43,19 @@ source $ZSH/oh-my-zsh.sh
 # Load zsh-syntax-highlighting
 source ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# Load aliases
+# Load aliases and custom functions
 source ~/.config/zsh/aliases.zsh
+source ~/.config/zsh/functions.zsh
 
 # Completions
 autoload -U compinit && compinit
 
+export PATH
+
 # Load starship prompt
 eval "$(starship init zsh)"
 
+# Enter toolbox by default
+if [ "$HOSTNAME" != "toolbox" ]; then
+        toolbox enter
+fi

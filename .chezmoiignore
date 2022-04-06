@@ -1,3 +1,4 @@
 .oh-my-zsh/cache
 bootstrap.sh
+*.ks
 README.md

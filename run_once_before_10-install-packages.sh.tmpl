@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# install flathub packages
+flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub com.bitwig.BitwigStudio org.yuzu_emu.yuzu org.citra_emu.citra net.davidotek.pupgui2
+# determine bitwarden flatpak vs appimage?
+
+# install packages in toolbox default container
+toolbox run bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash'
+toolbox run bash -c 'nvm install node'
+toolbox run bash -c 'dnf install neovim golang'
+toolbox run bash -c 'go install golang.org/x/tools/gopls@latest github.com/go-delve/delve/cmd/dlv@latest'
