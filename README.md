@@ -15,10 +15,10 @@ My personal dotfile repo (in case you were wondering). Can completely bootstrap 
 * NOTE: at the moment, the kickstart will contain an unencrypted value for the user profile
 * Install Fedora Server netinst to a usb with `dd if=netinst.iso of=/dev/sdx bs=1M oflag=sync status=progress`
 * Boot Fedora Server netinst on the target install machine
-* At the boot screen, press UP to select the "install without verify" option and then TAB
+* At the boot screen, press UP to select the "install without verify" option and then 'e'
 * Insert the kickstart directive into the the boot string **before** the `quiet` directive:
   * `inst.ks=http://<WEB_SERVER_IP>:<PORT>/workstation.ks`
-* Hit ENTER. Install will begin and complete without any further prompt
+* Hit Ctrl-x. Install will begin and complete without any further prompt
 
 ### Bootstrap system
-Run this `bash <(curl -sL git.io/JMnGu)`
+One the system reboots, unlock the FDE with the fde password supplied, then log in as with the user and password. Hit Ctrl+Alt+T to launch Konsole, then run this `bash <(curl -sL git.io/JMnGu)` to bootstrap the system and get dotfiles installed.

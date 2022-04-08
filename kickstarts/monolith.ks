@@ -1,6 +1,6 @@
 {{define "kickstart"}}
 # Fedora Kickstart for Anaconda, automating initial system setup
-cmdline
+text
 
 %post --erroronfail
 cp /etc/skel/.bash* /root
@@ -16,6 +16,7 @@ lang en_US.UTF-8
 firewall --use-system-defaults
 
 # OSTree setup
+# TODO: Fix, needs to install from network
 ostreesetup --osname="fedora" --remote="fedora" --url="file:///ostree/repo" --ref="fedora/35/x86_64/kinoite"
 
 # Run the Setup Agent on first boot
@@ -25,17 +26,18 @@ firstboot --enable
 ignoredisk --only-use=sda
 
 # Partition clearing information
-clearpart --none --initlabel
+# TODO: Fix for nvme
+clearpart --drives=sda --all
 
 # Disk partitioning information
 part /boot/efi --fstype="efi" --ondisk=sda --size=512 --fsoptions="umask=0077,shortname=winnt" --label=ESP
 part /boot --fstype="ext4" --ondisk=sda --size=1024
-part btrfs --fstype="btrfs" --ondisk=sda --size=128510 --encrypted --luks-version=luks2 --passphrase={{ .FdePassword }}
-btrfs none btrfs
-btrfs / --subvol --name=root --fsoptions="subvol=root,ssd,compress=zstd,discard=async,x-systemd.device-timeout=0"
-btrfs /home --subvol --name=home --fsoptions="subvol=home,ssd,compress=zstd,discard=async,x-systemd.device-timeout=0"
-btrfs /var/lib/machines --subvol --name=var_lib_machines --fsoptions="subvol=var_lib_machines,ssd,compress=zstd,discard=async,x-systemd.device-timeout=0"
-btrfs /var/log --subvol --name=var_log --fsoptions="subvol=var_log,ssd,compress=zstd,discard=async,x-systemd.device-timeout=0"
+part btrfs.01 --fstype="btrfs" --ondisk=sda --size=128510 --encrypted --luks-version=luks2 --passphrase={{ .FdePassword }}
+btrfs none --label btrfs01 btrfs.01
+btrfs / --subvol --name=root btrfs01
+btrfs /home --subvol --name=home btrfs01
+btrfs /var/lib/machines --subvol --name=var_lib_machines btrfs01
+btrfs /var/log --subvol --name=var_log btrfs01
 
 # System timezone
 timezone America/New_York --utc

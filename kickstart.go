@@ -26,9 +26,9 @@ func main() {
 	// web server for kickstart file
 	http.HandleFunc("/", serveKickstart(fdepass, userpass))
 
-	log.Fatal(http.ListenAndServe(":3000", nil))
 	log.Println("Use the following in the netinst for Fedora as an example: inst.ks=http://<WEB_SERVER_IP>:3000/monolith.ks")
 	log.Println("You can verify kickstart by visiting: http://localhost:3000/monolith.ks")
+	log.Fatal(http.ListenAndServe(":3000", nil))
 }
 
 func serveKickstart(fdepass, userpass string) http.HandlerFunc {
