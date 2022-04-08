@@ -1,6 +1,0 @@
-#!/bin/bash
-
-set -eufo pipefail
-
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-nvim --headless -c 'LspInstall --sync gopls tsserver' +qall
