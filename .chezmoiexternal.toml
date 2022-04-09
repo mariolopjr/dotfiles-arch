@@ -15,3 +15,6 @@
     url = "https://github.com/zsh-users/zsh-autosuggestions/archive/v0.7.0.tar.gz"
     exact = true
     stripComponents = 1
+[".config/kitty/nord.conf"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/connorholyday/nord-kitty/master/nord.conf"
