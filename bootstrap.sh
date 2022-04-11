@@ -66,10 +66,13 @@ pacstrap /mnt \
 	podman podman-dnsname buildah dnsmasq \
 	qemu qemu-arch-extra virt-manager vagrant \
 	clang go nodejs \
-	plasma-desktop plasma-wayland-session kde-system-meta \
+	plasma-desktop plasma-wayland-session kde-system-meta discover fwupd packagekit-qt5 \
+	plasma-pa phonon-qt5 pulseaudio-alsa pulseaudio-jack pulseaudio-bluetooth pulseaudio-equalizer \
+	latte-dock plasma-disks plasma-systemmonitor plasma-thunderbolt \
 	kdeconnect kdenetwork-filesharing kget kio-extras kio-gdrive krdc krfb ktorrent zeroconf-ioslave \
 	kleopatra kcmutils dolphin-plugins kdeplasma-addons \
-    ark filelight kcalc kcharselect kdebugsettings kdf kdialog kfind kgpg kwrite kdiff markdownpart print-manager \
+    ark filelight kcalc kcharselect kdebugsettings kdf kdialog kfind kgpg kwrite kdiff markdownpart print-manager  	libreoffice-fresh \
+	papirus-icon-theme \
 	quota-tools sddm rng-tools \
 	firefox discord guitarix bitwarden bitwarden-cli \
 	redshift pipewire scrot arandr x264 x265 \
@@ -80,7 +83,7 @@ arch-chroot /mnt sudo -H -u "$username" bash -c "
 	sudo systemctl enable sshd
 	rm -rf /home/$username/paru
 
-    paru -S --noconfirm opensnitch bitwig-studio citra-git rpcs3-git bsnes-qt5 nerd-fonts-fira-code protonup-git protonup-qt plymouth-git plymouth-theme-arch-logo-new refind-theme-nord nordic-kde-git kvantum-theme-nordic-git nordic-theme-git sddm-nordic-theme-git macchina
+    paru -S --noconfirm opensnitch bitwig-studio citra-git rpcs3-git bsnes-qt5 nerd-fonts-fira-code protonup-git protonup-qt plymouth-git plymouth-theme-arch-logo-new refind-theme-nord nordic-kde-git kvantum-theme-nordic-git nordic-theme-git sddm-nordic-theme-git macchina kwin-bismuth papirus-folders-git papirus-nord nordzy-cursors
 
 	sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply mariolopjr
 "

@@ -52,10 +52,10 @@ function M.setup()
 
     -- Utilities
     use {
-      "rcarriga/nvim-notify",
-      event = "VimEnter",
+      'rcarriga/nvim-notify',
+      event = 'VimEnter',
       config = function()
-        vim.notify = require "notify"
+        vim.notify = require 'notify'
       end,
     }
 
@@ -106,7 +106,7 @@ function M.setup()
     -- UI
     use {
       'nvim-lualine/lualine.nvim',
-      event = "VimEnter",
+      event = 'VimEnter',
       config = function()
         require('config.lualine').setup()
       end,
@@ -146,16 +146,16 @@ function M.setup()
         'project.nvim',
       },
       requires = {
-        "nvim-lua/popup.nvim",
-        "nvim-lua/plenary.nvim",
-        { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
-        "nvim-telescope/telescope-project.nvim",
-        "cljoly/telescope-repo.nvim",
-        "nvim-telescope/telescope-file-browser.nvim",
+        'nvim-lua/popup.nvim',
+        'nvim-lua/plenary.nvim',
+        { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+        'nvim-telescope/telescope-project.nvim',
+        'cljoly/telescope-repo.nvim',
+        'nvim-telescope/telescope-file-browser.nvim',
         {
-          "ahmedkhalf/project.nvim",
+          'ahmedkhalf/project.nvim',
           config = function()
-            require("project_nvim").setup {}
+            require('project_nvim').setup {}
           end,
         },
       },
@@ -168,11 +168,11 @@ function M.setup()
       'neovim/nvim-lspconfig',
       opt = true,
       event = 'BufReadPre',
-      wants = { 'nvim-lsp-installer' },
+      wants = { 'cmp-nvim-lsp', 'nvim-lsp-installer', 'lsp_signature.nvim', },
       config = function ()
         require('config.lsp').setup()
       end,
-      requires = { 'williamboman/nvim-lsp-installer' },
+      requires = { 'williamboman/nvim-lsp-installer', 'ray-x/lsp_signature.nvim', },
     }
 
     use {
@@ -184,6 +184,30 @@ function M.setup()
     }
 
     use {
+      'windwp/nvim-autopairs',
+      wants = 'nvim-treesitter',
+      module = { 'nvim-autopairs.completion.cmp', 'nvim-autopairs' },
+      config = function()
+        require('config.autopairs').setup()
+      end,
+    }
+
+    use {
+      'windwp/nvim-ts-autotag',
+      wants = 'nvim-treesitter',
+      event = 'InsertEnter',
+      config = function()
+        require('nvim-ts-autotag').setup { enable = true }
+      end,
+    }
+
+    use {
+      'RRethy/nvim-treesitter-endwise',
+      wants = 'nvim-treesitter',
+      event = 'InsertEnter',
+    }
+
+    use {
       'SmiteshP/nvim-gps',
       requires = 'nvim-treesitter/nvim-treesitter',
       module = 'nvim-gps',
@@ -192,11 +216,34 @@ function M.setup()
       end,
     }
 
-    use 'hrsh7th/nvim-cmp'
-    use 'hrsh7th/cmp-nvim-lsp'
+    use {
+      'hrsh7th/nvim-cmp',
+      event = 'InsertEnter',
+      opt = true,
+      config = function()
+        require('config.cmp').setup()
+      end,
+      wants = { 'LuaSnip' },
+      requires = {
+        'hrsh7th/cmp-buffer',
+        'hrsh7th/cmp-path',
+        'hrsh7th/cmp-nvim-lua',
+        'ray-x/cmp-treesitter',
+        'hrsh7th/cmp-cmdline',
+        'saadparwaiz1/cmp_luasnip',
+        'hrsh7th/cmp-nvim-lsp',
+        {
+          'L3MON4D3/LuaSnip',
+          wants = 'friendly-snippets',
+          config = function()
+            require('config.luasnip').setup()
+          end,
+        },
+        'rafamadriz/friendly-snippets',
+      },
+    }
+
     use 'onsails/lspkind-nvim'
-    use 'saadparwaiz1/cmp_luasnip'
-    use 'L3MON4D3/LuaSnip'
 
     use 'mfussenegger/nvim-dap'
     use 'rcarriga/nvim-dap-ui'

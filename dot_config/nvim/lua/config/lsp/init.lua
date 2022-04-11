@@ -22,6 +22,14 @@ local function on_attach(client, bufnr)
   require('config.lsp.keymaps').setup(client, bufnr)
 end
 
+local lsp_signature = require 'lsp_signature'
+lsp_signature.setup {
+  bind = true,
+  handler_opts = {
+    border = 'rounded',
+  },
+}
+
 local opts = {
   on_attach = on_attach,
   capabilities = capabilities,
