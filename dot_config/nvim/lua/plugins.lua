@@ -95,6 +95,9 @@ function M.setup()
 
     use {
       'kyazdani42/nvim-tree.lua',
+      wants = 'nvim-web-devicons',
+      cmd = { 'NvimTreeToggle', 'NvimTreeCose' },
+      module = 'nvim-tree',
       requires = { 'kyazdani42/nvim-web-devicons' },
       config = function()
         require('config.nvimtree').setup()
@@ -107,6 +110,7 @@ function M.setup()
     use {
       'nvim-lualine/lualine.nvim',
       event = 'VimEnter',
+      after = 'nvim-treesitter',
       config = function()
         require('config.lualine').setup()
       end,
@@ -124,6 +128,15 @@ function M.setup()
         })
       end,
       disable = true,
+    }
+
+    use {
+      'akinsho/nvim-bufferline.lua',
+      event = 'BufReadPre',
+      wants = 'nvim-web-devicons',
+      config = function()
+        require('config.bufferline').setup()
+      end,
     }
 
     -- Search
@@ -177,10 +190,15 @@ function M.setup()
 
     use {
       'nvim-treesitter/nvim-treesitter',
+      opt = true,
+      event = "BufRead",
       run = ':TSUpdate',
       config = function()
         require('config.treesitter').setup()
       end,
+      requires = {
+        { 'nvim-treesitter/nvim-treesitter-textobjects' },
+      },
     }
 
     use {
@@ -232,6 +250,7 @@ function M.setup()
         'hrsh7th/cmp-cmdline',
         'saadparwaiz1/cmp_luasnip',
         'hrsh7th/cmp-nvim-lsp',
+        'hrsh7th/cmp-nvim-lsp-signature-help',
         {
           'L3MON4D3/LuaSnip',
           wants = 'friendly-snippets',

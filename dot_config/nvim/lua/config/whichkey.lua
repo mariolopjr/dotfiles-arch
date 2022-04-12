@@ -29,9 +29,10 @@ function M.setup()
       D = { '<Cmd>%bd|e#|bd#<Cr>', 'Delete all buffers' },
     },
 
-    keymaps_f = {
+    f = {
       name = 'Find',
       f = { '<cmd>lua require(\'utils.finder\').find_files()<cr>', 'Files' },
+      d = { '<cmd>lua require(\'utils.finder\').find_dotfiles()<cr>', 'Dotfiles' },
       b = { '<cmd>Telescope buffers<cr>', 'Buffers' },
       o = { '<cmd>Telescope oldfiles<cr>', 'Old Files' },
       g = { '<cmd>Telescope live_grep<cr>', 'Live Grep' },
@@ -41,7 +42,7 @@ function M.setup()
       e = { '<cmd>NvimTreeToggle<cr>', 'Explorer' },
     },
   
-    keymaps_p = {
+    p = {
       name = 'Project',
       p = { '<cmd>lua require\'telescope\'.extensions.project.project{}<cr>', 'List' },
       s = { '<cmd>Telescope repo list<cr>', 'Search' },

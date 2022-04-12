@@ -30,4 +30,12 @@ function M.find_buffers()
   end)
 end
 
+-- Find dotfiles
+function M.find_dotfiles()
+  require('telescope.builtin').find_files {
+    prompt_title = '<Dotfiles>',
+    cwd = '$HOME/.local/share/chezmoi/',
+  }
+end
+
 return M
