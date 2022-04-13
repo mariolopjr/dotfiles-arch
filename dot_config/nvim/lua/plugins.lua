@@ -139,6 +139,23 @@ function M.setup()
       end,
     }
 
+    -- Movement
+    use {
+      'phaazon/hop.nvim',
+      cmd = { 'HopWord', 'HopChar1' },
+      config = function()
+        require('hop').setup {}
+      end,
+    }
+
+    use {
+      'ggandor/lightspeed.nvim',
+      keys = { 's', 'S', 'f', 'F', 't', 'T' },
+      config = function()
+        require('lightspeed').setup {}
+      end,
+    }
+
     -- Search
     use {
       'nvim-telescope/telescope.nvim',
@@ -277,6 +294,15 @@ function M.setup()
       config = function()
           require('Comment').setup()
       end,
+    }
+
+    use {
+      'iamcco/markdown-preview.nvim',
+      run = function()
+        vim.fn['mkdp#util#install']()
+      end,
+      ft = 'markdown',
+      cmd = { 'MarkdownPreview' },
     }
 
     use {

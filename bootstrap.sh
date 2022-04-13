@@ -73,7 +73,7 @@ pacstrap /mnt \
 	kleopatra kcmutils dolphin-plugins kdeplasma-addons \
     ark filelight kcalc kcharselect kdebugsettings kdf kdialog kfind kgpg kwrite kdiff markdownpart print-manager  	libreoffice-fresh \
 	papirus-icon-theme \
-	quota-tools sddm rng-tools \
+	krunner quota-tools sddm rng-tools \
 	firefox discord guitarix bitwarden bitwarden-cli \
 	redshift pipewire scrot arandr x264 x265 \
 	steam mgba-qt ppsspp pcsx2
@@ -83,10 +83,18 @@ arch-chroot /mnt sudo -H -u "$username" bash -c "
 	sudo systemctl enable sshd
 	rm -rf /home/$username/paru
 
-    paru -S --noconfirm opensnitch bitwig-studio citra-git rpcs3-git bsnes-qt5 nerd-fonts-fira-code protonup-git protonup-qt plymouth-git plymouth-theme-arch-logo-new refind-theme-nord nordic-kde-git kvantum-theme-nordic-git nordic-theme-git sddm-nordic-theme-git macchina kwin-bismuth papirus-folders-git papirus-nord nordzy-cursors
+    paru -S --noconfirm opensnitch bitwig-studio citra-git rpcs3-git bsnes-qt5 nerd-fonts-fira-code protonup-git protonup-qt plymouth-git plymouth-theme-arch-logo-new refind-theme-nord nordic-kde-git kvantum-theme-nordic-git nordic-theme-git sddm-nordic-theme-git macchina kwin-bismuth papirus-folders-git papirus-nord nordzy-cursors plasma5-applets-window-title
 
 	sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply mariolopjr
 "
 
 # Enable SDDM
 systemctl enable sddm --root=/mnt &>/dev/null
+
+# Configure SDDM
+mkdir -p /mnt/etc/sddm.conf.d
+cat > /mnt/etc/sddm.conf.d/theme.conf <<EOF
+[Theme]
+Current=Nordic
+CursorTheme=Nordzy-cursors
+EOF
