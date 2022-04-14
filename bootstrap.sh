@@ -61,20 +61,14 @@ pacstrap /mnt \
 	neovim bat ripgrep exa fd wget fzf unzip zip dialog ddcutil \
 	pacman-contrib bat ncdu pv zsh-completions watchexec tmux xclip \
 	lsof bind-tools mtr socat htop iotop openbsd-netcat strace whois \
-	e2fsprogs exfat-utils dosfstools f2fs-tools ddrescue \
-	git git-delta jq ddrescue  \
+	e2fsprogs exfat-utils dosfstools f2fs-tools ddrescue fwupd \
+	git git-delta jq ddrescue \
 	podman podman-dnsname buildah dnsmasq \
-	qemu qemu-arch-extra virt-manager vagrant \
+	qemu qemu-arch-extra vagrant \
 	clang go nodejs \
-	plasma-desktop plasma-wayland-session kde-system-meta discover fwupd packagekit-qt5 \
-	plasma-pa phonon-qt5 pulseaudio-alsa pulseaudio-jack pulseaudio-bluetooth pulseaudio-equalizer \
-	latte-dock plasma-disks plasma-systemmonitor plasma-thunderbolt \
-	kdeconnect kdenetwork-filesharing kget kio-extras kio-gdrive krdc krfb ktorrent zeroconf-ioslave \
-	kleopatra kcmutils dolphin-plugins kdeplasma-addons \
-    ark filelight kcalc kcharselect kdebugsettings kdf kdialog kfind kgpg kwrite kdiff markdownpart print-manager  	libreoffice-fresh \
-	papirus-icon-theme \
-	krunner quota-tools sddm rng-tools \
-	firefox discord guitarix bitwarden bitwarden-cli \
+	nnn digikam firefox discord bitwarden bitwarden-cli \
+	digikam libreoffice-fresh \
+	papirus-icon-theme sddm rng-tools \
 	redshift pipewire scrot arandr x264 x265 \
 	steam mgba-qt ppsspp pcsx2
 
@@ -83,7 +77,7 @@ arch-chroot /mnt sudo -H -u "$username" bash -c "
 	sudo systemctl enable sshd
 	rm -rf /home/$username/paru
 
-    paru -S --noconfirm opensnitch bitwig-studio citra-git rpcs3-git bsnes-qt5 nerd-fonts-fira-code protonup-git protonup-qt plymouth-git plymouth-theme-arch-logo-new refind-theme-nord nordic-kde-git kvantum-theme-nordic-git nordic-theme-git sddm-nordic-theme-git macchina kwin-bismuth papirus-folders-git papirus-nord nordzy-cursors plasma5-applets-window-title
+    paru -S --noconfirm opensnitch bitwig-studio citra-git rpcs3-git bsnes-qt5 nerd-fonts-fira-code protonup-git plymouth-git plymouth-theme-arch-logo-new refind-theme-nord nordic-theme-git sddm-nordic-theme-git macchina papirus-folders-git papirus-nord nordzy-cursors
 
 	sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply mariolopjr
 "
