@@ -1,0 +1,284 @@
+# Globals
+include:
+  - secrets.yaml
+  - plugins.yaml
+
+directory: /mnt/media/music
+library: /mnt/media/music/beets.db
+original_date: yes
+per_disc_numbering: yes
+threaded: yes
+parentwork:
+  force: no
+  auto: yes
+
+# Paths
+asciify_path: yes
+clutter:
+  [ .DS_Store, Thumbs.DB, ]
+ignore: [".*", "*~", "System Volume Information", "lost+found"]
+ignore_hidden: yes
+paths:
+  default: $albumartist/$album%aunique{}/$track $title
+  singleton: $artist/Non-Album/$title
+  albumtype:soundtrack: Soundtracks/$album%aunique{}/$track $title
+  comp: Compilations/$album%aunique{}/$track $title
+  ext:jpg: $albumpath/scans/cover
+  ext:png: $albumpath/scans/cover
+  ext:pdf: $albumpath/scans/booklet
+max_filename_length: 255
+
+# Import
+import:
+  copy: yes
+  write: yes
+  resume: yes
+  incremental: no
+  incremental_skip_later: no
+  from_scratch: yes
+  quiet_fallback: skip
+  none_rec_action: ask
+  timid: no
+  log: /mnt/media/music/import.log
+  default_action: apply
+  languages: en
+  detail: no
+  group_albums: no
+  autotag: yes
+  duplicate_action: ask
+  bell: yes
+
+importadded:
+  preserve_mtimes: no
+  preserve_write_mtimes: no
+
+# AcousticBrainz
+absubmit:
+  auto: no
+  force: no
+  pretend: no
+
+chroma:
+  auto: yes
+
+acousticbrainz:
+  auto: yes
+  force: yes
+  tags:
+    [
+      average_loudness,
+      bpm,
+      chords_changes_rate,
+      chords_key,
+      chords_number_rate,
+      chords_scale,
+      danceable,
+      gender,
+      genre_rosamerica,
+      initial_key,
+      key_strength,
+      mood_acoustic,
+      mood_aggressive,
+      mood_electronic,
+      mood_happy,
+      mood_party,
+      mood_relaxed,
+      mood_sad,
+      moods_mirex,
+      rhythm,
+      timbre,
+      tonal,
+      voice_instrumental
+    ]
+
+# MusicBrainz
+musicbrainz:
+  searchlimit: 20
+  extra_tags:
+    [
+      catalognum,
+      country,
+      label,
+      media,
+      year
+    ]
+
+match:
+  preferred:
+    media: ['Digital Media|File', 'Digital Media']
+    countries: ['DE', 'XW', 'US', 'GB|UK']
+  strong_rec_thresh: 0.75
+  medium_rec_thresh: 0.125
+
+# mbcollection:
+#   auto: yes
+#   collection: REDACTED
+#   remove: yes
+
+# mbsubmit:
+#   format: $track. $title - $artist ($length)
+#   threshold: medium
+
+# Bandcamp
+## beetcamp
+bandcamp:
+    preferred_media: Digital
+    include_digital_only_tracks: true
+    search_max: 10
+    art: true
+    exclude_extra_fields:
+      - lyrics
+      - comments
+
+# Last.fm
+# make a maloja plugin for this instead
+# lastimport:
+#   per_page: 500
+#   retry_limit: 3
+types:
+  play_count: int
+  rating: float
+lastgenre:
+  auto: yes
+  canonical: ~/.config/beets/genres/genres-tree.yaml
+  whitelist: ~/.config/beets/genres/genres.txt
+  count: 5
+  fallback: 'Pop/Rock'
+  separator: '; '
+  force: no
+  min_weight: 10
+  prefer_specific: no
+  source: album
+  title_case: yes
+
+# Muspy
+# follow:
+#   auto: yes
+
+# Lyrics
+lyrics:
+  auto: yes
+  fallback: ''
+  force: no
+  #google_API_key: None
+  #google_engine_ID:
+  sources:
+    - bandcamp
+    - genius
+    - lyricwiki
+    - google
+    - musixmatch
+
+# Pictures
+art_filename: cover
+copyartifacts:
+    extensions: .jpg .pdf .png
+    print_ignored: yes
+fetchart:
+  auto: yes
+  cautious: no
+  enforce_ratio: yes
+  minwidth: 300
+  maxwidth: 3000
+  quality: 75
+  sources:
+    - filesystem
+    - coverart: release
+    - itunes
+    - coverart: releasegroup
+    - albumart
+    - lastfm
+    - fanarttv
+    - bandcamp
+    - '*'
+  store_source: yes
+embedart:
+  auto: no
+  compare_threshold: 50
+  ifempty: yes
+  maxwidth: 0
+  remove_art_file: no
+
+# ReplayGain
+replaygain:
+  auto: yes
+  backend: ffmpeg
+  overwrite: no
+  targetlevel: 89
+  per_disc: no
+
+# Maintanance
+duplicates:
+  album: no
+  checksum: ffmpeg -i {file} -f crc -
+  copy: none
+  count: yes
+  delete: no
+  format: format_item
+  full: yes
+  keys: [mb_trackid, mb_albumid]
+  merge: no
+  move: none
+  path: no
+  strict: no
+  #tag: no
+  tiebreak: {}
+
+check:
+  import: yes
+  write-check: yes
+  write-update: yes 
+  convert-update: no
+  threads: 4
+
+missing:
+  #format: $albumartist - $album - $title
+  count: yes
+  total: yes
+
+# Export
+convert:
+  auto: yes
+  format: flac
+  dest: /mnt/media/music
+  copy_album_art: no
+  embed: no
+  never_convert_lossy_files: yes
+  quiet: false
+  threads: 8
+permissions:
+  file: 640
+  dir: 640
+
+# UI
+verbose: no
+ui:
+    color: yes
+    colors:
+        text_success: green
+        text_warning: blue
+        text_error: red
+        text_highlight: blue
+        text_highlight_minor: lightgray
+        action_default: darkblue
+        action: purple
+# hook:
+#   hooks:
+#     - event: album_imported
+#       command: echo "\"{album}\""
+#     - event: import
+#       command: echo "imported from {paths}"
+#     - event: art_set
+#       command: echo "Coverart saved"
+#     - event: import_begin
+#       command: echo "Funkwhale import started..."
+#     - event: import_task_apply
+#       command: echo "Metadata applied"
+#     - event: item_copied
+#       command: echo "\"{item}\" copied from \"{source}\" to \"{destination}\""
+#     - event: item_moved
+#       command: echo "Moved \"{item}\""
+#     - event: write
+#       command: echo "Writing to {path}"
+#     - event: cli_exit
+#       command: echo "All tasks finished!"

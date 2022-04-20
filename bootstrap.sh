@@ -61,34 +61,105 @@ pacstrap /mnt \
 	neovim bat ripgrep exa fd wget fzf unzip zip dialog ddcutil \
 	pacman-contrib bat ncdu pv zsh-completions watchexec tmux xclip \
 	lsof bind-tools mtr socat htop iotop openbsd-netcat strace whois \
-	e2fsprogs exfat-utils dosfstools f2fs-tools ddrescue fwupd \
-	git git-delta jq ddrescue \
-	podman podman-dnsname buildah dnsmasq \
-	qemu qemu-arch-extra vagrant \
+	e2fsprogs exfat-utils dosfstools f2fs-tools ddrescue fwupd openssh \
+	git git-delta jq ddrescue bottom ctop \
+	podman podman-dnsname buildah dnsmasq cifs-utils \
+	qemu qemu-arch-extra virt-install virt-viewer vagrant \
 	clang go nodejs \
-	nnn digikam firefox discord bitwarden bitwarden-cli \
-	digikam libreoffice-fresh \
-	papirus-icon-theme sddm rng-tools \
+	sway swaylock swayidle rofi xorg-xwayland mako udiskie \
+	nnn digikam firefox discord bitwarden bitwarden-cli libreoffice-fresh mopidy \
+	papirus-icon-theme rng-tools \
 	redshift pipewire scrot arandr x264 x265 \
 	steam mgba-qt ppsspp pcsx2
 
 # Install AUR packages
 arch-chroot /mnt sudo -H -u "$username" bash -c "
-	sudo systemctl enable sshd
 	rm -rf /home/$username/paru
 
-    paru -S --noconfirm opensnitch bitwig-studio citra-git rpcs3-git bsnes-qt5 nerd-fonts-fira-code protonup-git plymouth-git plymouth-theme-arch-logo-new refind-theme-nord nordic-theme-git sddm-nordic-theme-git macchina papirus-folders-git papirus-nord nordzy-cursors
+    paru -S --noconfirm opensnitch bitwig-studio citra-git rpcs3-git bsnes-qt5 nerd-fonts-fira-code protonup-git greetd greetd-wlgreet refind-theme-nord nordic-theme-git macchina papirus-folders-git papirus-nord nordzy-cursors
 
 	sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply mariolopjr
 "
 
-# Enable SDDM
-systemctl enable sddm --root=/mnt &>/dev/null
+cat > /mnt/etc/greetd/config.toml <<EOF
+[terminal]
+vt = 1
 
-# Configure SDDM
-mkdir -p /mnt/etc/sddm.conf.d
-cat > /mnt/etc/sddm.conf.d/theme.conf <<EOF
-[Theme]
-Current=Nordic
-CursorTheme=Nordzy-cursors
+[default_session]
+command = "sway --config /etc/greetd/sway-wlgreet.conf"
+user = "greeter"
 EOF
+
+cat > /mnt/etc/greetd/wlgreet.toml <<EOF
+outputMode = "active"
+scale = 1
+
+[background]
+red = 0
+green = 0
+blue = 0
+opacity = 0.7
+EOF
+
+cat > /mnt/etc/greetd/sway-wlgreet.conf <<'EOF'
+# 
+# Settings
+#
+
+# Cursor hide delay (in ms)
+#set $cursor-delay "100"
+
+# Display sleep idle time
+#set $dispsleep-time "10"
+
+# Display sleep and wake commands
+#set $dispsleep 'swaymsg "output * dpms off"'
+#set $dispwake 'swaymsg "output * dpms on"'
+
+# The input devices worth paying attention to
+#set $touchpad "2:7:SynPS/2_Synaptics_Touchpad"
+
+# wlgreet config location
+set $wlgreet-config /etc/greetd/wlgreet.toml
+
+# wlgreet command
+set $wlgreet-command sway
+
+# waybar config location
+#set $waybar-config /etc/greetd/waybar.conf
+#set $waybar-css /etc/greetd/waybar.css
+
+# 
+# Setup
+#
+
+# Exit on Mod4+Shift+R, effectively restarting the greeter
+bindsym Mod4+Shift+r exit
+
+# Set wallpaper
+output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+
+# Touchpad options
+# input $touchpad {
+# 	pointer_accel 0.5
+# }
+
+# Disable Trackpoint
+#input $trackpoint events disabled
+
+# Hide cursor after delay
+#seat * hide_cursor $cursor-delay
+
+# Display sleep setup
+#exec swayidle timeout $dispsleep-time $dispsleep resume $dispwake
+
+# Start waybar
+#exec "waybar --config $waybar-config --style $waybar-css"
+
+# The greeter itself
+exec "wlgreet --command $wlgreet-command --config $wlgreet-config; swaymsg exit"
+EOF
+
+# Enable ssh
+systemctl enable sshd --root=/mnt &>/dev/null
+systemctl enable greetd --root=/mnt &>/dev/null
