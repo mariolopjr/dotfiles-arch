@@ -62,21 +62,23 @@ pacstrap /mnt \
 	pacman-contrib bat ncdu pv zsh-completions watchexec tmux xclip \
 	lsof bind-tools mtr socat htop iotop openbsd-netcat strace whois \
 	e2fsprogs exfat-utils dosfstools f2fs-tools ddrescue fwupd openssh \
-	git git-delta jq ddrescue bottom ctop \
-	podman podman-dnsname buildah dnsmasq cifs-utils \
-	qemu qemu-arch-extra virt-install virt-viewer vagrant \
-	clang go nodejs \
+	git git-delta jq ddrescue bottom ctop man xdg-desktop-portal-wlr \
+	podman podman-dnsname buildah dnsmasq cifs-utils pipewire-media-session \
+	qemu qemu-arch-extra virt-install virt-viewer vagrant flatpak xdg-desktop-portal \
+	clang go nodejs iwd dhcpcd \
 	sway swaylock swayidle rofi xorg-xwayland mako udiskie \
-	nnn digikam firefox discord bitwarden bitwarden-cli libreoffice-fresh mopidy \
+	nnn firefox bitwarden bitwarden-cli libreoffice-fresh mopidy \
 	papirus-icon-theme rng-tools \
 	redshift pipewire scrot arandr x264 x265 \
-	steam mgba-qt ppsspp pcsx2
+	steam
 
 # Install AUR packages
 arch-chroot /mnt sudo -H -u "$username" bash -c "
 	rm -rf /home/$username/paru
 
-    paru -S --noconfirm opensnitch bitwig-studio citra-git rpcs3-git bsnes-qt5 nerd-fonts-fira-code protonup-git greetd greetd-wlgreet refind-theme-nord nordic-theme-git macchina papirus-folders-git papirus-nord nordzy-cursors
+	sudo flatpak install -y flathub net.pcsx2.PCSX2 org.ppsspp.PPSSPP io.mgba.mGBA  org.citra_emu.citra org.yuzu_emu.yuzu net.rpcs3.RPCS3 dev.bsnes.bsnes net.kuribo64.melonDS \
+		com.github.tchx84.Flatseal net.davidotek.pupgui2 org.kde.digikam com.discordapp.Discord com.spotify.Client
+    paru -S --noconfirm opensnitch bitwig-studio nerd-fonts-fira-code protonup-git greetd greetd-wlgreet refind-theme-nord nordic-theme-git macchina papirus-folders-git papirus-nord nordzy-cursors
 
 	sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply mariolopjr
 "
@@ -160,6 +162,5 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 exec "wlgreet --command $wlgreet-command --config $wlgreet-config; swaymsg exit"
 EOF
 
-# Enable ssh
-systemctl enable sshd --root=/mnt &>/dev/null
-systemctl enable greetd --root=/mnt &>/dev/null
+# Enable services
+systemctl enable sshd greetd iwd dhcpcd --root=/mnt &>/dev/null
