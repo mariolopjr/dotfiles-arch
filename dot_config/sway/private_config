@@ -88,7 +88,31 @@ mode "nag" {
 }
 
 # Exit sway
-bindsym $mod+Shift+e $nag -t custom -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Logoff' 'swaymsg exit'
+# bindsym $mod+Shift+e $nag -t custom -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Logoff' 'swaymsg exit'
+
+# Exit sway (logs you out of your Wayland session)
+bindsym --to-code $mod+Delete $nag -t custom -m \
+  'You pressed the exit shortcut. What do you want?' \
+  -b 'Sleep' 'systemctl suspend' \
+  -b 'Logout' 'swaymsg exit' \
+  -b 'Reboot' 'systemctl reboot' \
+  -b 'Poweroff' 'systemctl poweroff'
+
+# Shutdown/Logout menu
+set $mode_system System (l) lock, (e) exit, (s) suspend, (r) reboot, (Shift+s) Shutdown
+mode "$mode_system" {
+    # bindsym l exec $locker, mode "default"
+    bindsym e exec swaymsg exit, mode "default"
+    # bindsym s exec $locker && systemctl suspend, mode "default"
+    bindsym r exec systemctl reboot, mode "default"
+    bindsym Shift+s exec systemctl poweroff -i, mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+Shift+e mode "$mode_system"
 
 #
 # Moving around:

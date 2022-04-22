@@ -77,7 +77,7 @@ arch-chroot /mnt sudo -H -u "$username" bash -c "
 	rm -rf /home/$username/paru
 
 	sudo flatpak install -y flathub net.pcsx2.PCSX2 org.ppsspp.PPSSPP io.mgba.mGBA  org.citra_emu.citra org.yuzu_emu.yuzu net.rpcs3.RPCS3 dev.bsnes.bsnes net.kuribo64.melonDS \
-		com.github.tchx84.Flatseal net.davidotek.pupgui2 org.kde.digikam com.discordapp.Discord com.spotify.Client org.libreoffice.LibreOffice
+		com.github.tchx84.Flatseal net.davidotek.pupgui2 org.kde.digikam com.discordapp.Discord com.spotify.Client org.libreoffice.LibreOffice org.kde.krdc
     paru -S --noconfirm opensnitch bitwig-studio nerd-fonts-victor-mono nerd-fonts-noto protonup-git greetd greetd-wlgreet swaynagmode refind-theme-nord nordic-theme-git macchina \
 		papirus-folders-git papirus-nord nordzy-cursors mopidy-subidy mopidy-mpd
 
