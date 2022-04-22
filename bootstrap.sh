@@ -67,7 +67,7 @@ pacstrap /mnt \
 	qemu qemu-arch-extra virt-install virt-viewer vagrant flatpak xdg-desktop-portal \
 	clang go nodejs iwd dhcpcd \
 	sway swaylock swayidle rofi xorg-xwayland mako udiskie \
-	nnn firefox bitwarden bitwarden-cli libreoffice-fresh mopidy \
+	nnn firefox bitwarden bitwarden-cli mopidy ncmpcpp zathura zathura-cb zathura-pdf-mupdf \
 	papirus-icon-theme rng-tools \
 	redshift pipewire scrot arandr x264 x265 \
 	steam
@@ -77,11 +77,73 @@ arch-chroot /mnt sudo -H -u "$username" bash -c "
 	rm -rf /home/$username/paru
 
 	sudo flatpak install -y flathub net.pcsx2.PCSX2 org.ppsspp.PPSSPP io.mgba.mGBA  org.citra_emu.citra org.yuzu_emu.yuzu net.rpcs3.RPCS3 dev.bsnes.bsnes net.kuribo64.melonDS \
-		com.github.tchx84.Flatseal net.davidotek.pupgui2 org.kde.digikam com.discordapp.Discord com.spotify.Client
-    paru -S --noconfirm opensnitch bitwig-studio nerd-fonts-fira-code protonup-git greetd greetd-wlgreet refind-theme-nord nordic-theme-git macchina papirus-folders-git papirus-nord nordzy-cursors
+		com.github.tchx84.Flatseal net.davidotek.pupgui2 org.kde.digikam com.discordapp.Discord com.spotify.Client org.libreoffice.LibreOffice
+    paru -S --noconfirm opensnitch bitwig-studio nerd-fonts-victor-mono nerd-fonts-noto protonup-git greetd greetd-wlgreet swaynagmode refind-theme-nord nordic-theme-git macchina \
+		papirus-folders-git papirus-nord nordzy-cursors mopidy-subidy mopidy-mpd
 
 	sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply mariolopjr
 "
+
+cat > /mnt/etc/mopidy/mopidy.conf <<EOF
+[core]
+cache_dir = /var/cache/mopidy
+config_dir = /etc/mopidy
+data_dir = /var/lib/mopidy
+
+[logging]
+config_file = /etc/mopidy/logging.conf
+debug_file = /var/log/mopidy/mopidy-debug.log
+
+[local]
+data_dir = /home/mario/.local/mopidy/local
+media_dir = /home/mario/media/music
+
+[m3u]
+playlists_dir = /home/mario/media/playlists
+
+[mpd]
+hostname = ::
+connection_timeout = 300
+
+[audio]
+output = tee name=t t. ! queue ! autoaudiosink t. ! queue ! audioresample ! audioconvert ! audio/x-raw,rate=44100,channels=2,format=S16LE ! wavenc ! filesink location=/tmp/mpd.fifo
+## TODO: following will make localhost:5555 
+## available as a source of data for the 
+## stereo visualizer without the fifo hack.
+# output = tee name=t ! queue ! autoaudiosink t.  ! queue ! audio/x-raw,rate=44100,channels=2,format=S16LE ! udpsink host=localhost port=6600
+mixer_volume = 70
+
+[file]
+media_dirs = /home/mario/media/music
+# follow_symlinks = false
+# metadata_timeout = 1000
+
+[podcast]
+enabled = true
+browse_root = /home/mario/media/podcasts.opml
+
+[subidy]
+url=https://musl.home.techmunchies.net
+username=mario
+password=edit_me
+
+# [youtube]
+# enabled = true
+# musicapi_enabled = true
+
+# [ytmusic]
+# enabled = true
+
+# [scrobbler]
+# enabled = true
+# username = *******
+# password = *******************
+
+# [soundcloud]
+# enabled = true
+# explore_songs = 45
+# auth_token = ********************
+EOF
 
 cat > /mnt/etc/greetd/config.toml <<EOF
 [terminal]
@@ -163,4 +225,4 @@ exec "wlgreet --command $wlgreet-command --config $wlgreet-config; swaymsg exit"
 EOF
 
 # Enable services
-systemctl enable sshd greetd iwd dhcpcd --root=/mnt &>/dev/null
+systemctl enable sshd greetd iwd dhcpcd mopidy --root=/mnt &>/dev/null

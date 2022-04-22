@@ -3,7 +3,7 @@ exec udiskie
 exec mako
 
 # Style
-font pango: FiraCode Nerd Font Mono 20px
+font pango: NotoSans Nerd Font 16px
 default_border pixel 2
 titlebar_border_thickness 2
 gaps outer 5
@@ -63,8 +63,32 @@ floating_modifier $mod normal
 # Reload the configuration file
 bindsym $mod+Shift+c reload
 
-# Exit sway (logs you out of your Wayland session)
-bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+# Swaynag
+swaynag_command swaynagmode
+set $nag exec swaynagmode
+mode "nag" {
+  bindsym {
+    Ctrl+d    mode "default"
+
+    Ctrl+c    $nag --exit
+    q         $nag --exit
+    Escape    $nag --exit
+
+    Return    $nag --confirm
+
+    Tab       $nag --select prev
+    Shift+Tab $nag --select next
+
+    Left      $nag --select next
+    Right     $nag --select prev
+
+    Up        $nag --select next
+    Down      $nag --select prev
+  }
+}
+
+# Exit sway
+bindsym $mod+Shift+e $nag -t custom -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Logoff' 'swaymsg exit'
 
 #
 # Moving around:

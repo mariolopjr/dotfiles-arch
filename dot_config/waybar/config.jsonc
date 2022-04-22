@@ -1,6 +1,6 @@
 {
-    "position": "top", 
-    "modules-left": ["sway/workspaces"],
+    "position": "top",
+    "modules-left": ["sway/workspaces", "cpu", "disk", "memory"],
     "modules-center": ["mpd"],
     "modules-right": ["network", "pulseaudio", "battery", "custom/pacman", "clock", "custom/power"],
     // Modules configuration
@@ -20,6 +20,18 @@
             "focused": ""
          }
      },
+     "cpu": {
+        "format": " {usage}%",
+        "tooltip": false
+    },
+    "disk": {
+        "format": " {}%",
+        "tooltip-format": "{used} / {total} used"
+    },
+    "memory": {
+        "format": " {}%",
+        "tooltip-format": "{used:0.1f}G / {total:0.1f}G used"
+    },
     // "custom/vpn": {
     // 	"format": "{}",
     //     "interval": 1,
@@ -91,7 +103,8 @@
     },
     "custom/power": {
 		"format": "⏻",
-		"on-click": "swaynag -t custom -m 'Are you sure you want to shutdown your device?' -b 'Poweroff' 'poweroff'"
+		"on-click": "swaynagmode -t custom -m 'Are you sure you want to shutdown your device?' -b 'Poweroff' 'poweroff'",
+        "tooltip": false
 	},
     "custom/pacman": {
         "format": " {}",
