@@ -1,5 +1,5 @@
-font=NotoSans Nerd Font 14
-background-color=#3b4252
+font="NotoSans Nerd Font 14"
+background-color='#3b4252'
 text-color=#eceff4
 width=350
 margin=0,20,20

@@ -1,6 +1,7 @@
 # Autostart
 exec udiskie
-exec mako
+exec mako --font='NotoSans Nerd Font 14' --background-color='#3b4252' --text-color='#eceff4' --width=350 \
+  margin='0,20,20' padding=10 border-size=2 border-color='#4c566a' border-radius=5 default-timeout=10000 group-by='summary'
 
 # Style
 font pango: NotoSans Nerd Font 16px
@@ -31,7 +32,7 @@ set $term kitty
 set $menu wofi --show drun -f -i
 
 ## Output configuration
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg ~/.local/wallpapers/monolith.jpg fill
 
 # Behavior
 focus_follows_mouse yes

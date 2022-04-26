@@ -246,9 +246,9 @@ convert:
   never_convert_lossy_files: yes
   quiet: false
   threads: 8
-permissions:
-  file: 640
-  dir: 640
+# permissions:
+#   file: 640
+#   dir: 640
 
 # UI
 verbose: no
