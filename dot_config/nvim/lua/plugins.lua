@@ -85,11 +85,11 @@ function M.setup()
     }
 
     use { 'lewis6991/gitsigns.nvim',
+      event = 'BufReadPre',
+      wants = 'plenary.nvim',
       requires = { 'nvim-lua/plenary.nvim' },
       config = function()
-        require('gitsigns').setup({
-          current_line_blame = false,
-        })
+        require('gitsigns').setup()
       end,
     }
 
@@ -198,11 +198,23 @@ function M.setup()
       'neovim/nvim-lspconfig',
       opt = true,
       event = 'BufReadPre',
-      wants = { 'cmp-nvim-lsp', 'nvim-lsp-installer', 'lsp_signature.nvim', },
+      wants = { 'cmp-nvim-lsp', 'nvim-lsp-installer', 'lsp_signature.nvim', 'lua-dev.nvim', 'vim-illuminate', },
       config = function ()
         require('config.lsp').setup()
       end,
-      requires = { 'williamboman/nvim-lsp-installer', 'ray-x/lsp_signature.nvim', },
+      requires = {
+        'williamboman/nvim-lsp-installer',
+        'ray-x/lsp_signature.nvim',
+        'folke/lua-dev.nvim',
+        'RRethy/vim-illuminate',
+        'jose-elias-alvarez/null-ls.nvim',
+        {
+          'j-hui/fidget.nvim',
+          config = function()
+            require('fidget').setup {}
+          end,
+        },
+      },
     }
 
     use {

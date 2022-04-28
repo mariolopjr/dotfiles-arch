@@ -1,4 +1,5 @@
 # Autostart
+exec foot --server
 exec udiskie
 exec mako --font='NotoSans Nerd Font 14' --background-color='#3b4252' --text-color='#eceff4' --width=350 \
   margin='0,20,20' padding=10 border-size=2 border-color='#4c566a' border-radius=5 default-timeout=10000 group-by='summary'
@@ -26,7 +27,7 @@ set $down j
 set $up k
 set $right l
 
-set $term kitty
+set $term foot
 
 # Application Launcher
 set $menu wofi --show drun -f -i

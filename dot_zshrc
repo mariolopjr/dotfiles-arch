@@ -19,6 +19,9 @@ fi
 # Set editor
 export EDITOR="/usr/bin/nvim"
 
+# Ensure ls outputs colors
+export LS_COLORS=1
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -54,8 +57,3 @@ export PATH
 
 # Load starship prompt
 eval "$(starship init zsh)"
-
-# Enter toolbox by default
-if [ "$HOSTNAME" != "toolbox" ]; then
-        toolbox enter
-fi
