@@ -1,8 +1,7 @@
 # Autostart
 exec foot --server
 exec udiskie
-exec mako --font='NotoSans Nerd Font 14' --background-color='#3b4252' --text-color='#eceff4' --width=350 \
-  margin='0,20,20' padding=10 border-size=2 border-color='#4c566a' border-radius=5 default-timeout=10000 group-by='summary'
+exec mako
 
 # Style
 font pango: NotoSans Nerd Font 16px
@@ -28,6 +27,9 @@ set $up k
 set $right l
 
 set $term foot
+set $termclient footclient
+
+set $lock swaylock -f
 
 # Application Launcher
 set $menu wofi --show drun -f -i
@@ -40,14 +42,15 @@ focus_follows_mouse yes
 
 ### Idle configuration
 exec swayidle -w \
-    timeout 600 'swaylock -f -c 2E3440' \
+    timeout 10 "$lock" \
     timeout 1800 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock -f -c 2E3440'
+    before-sleep "$lock"
 
 ### Key bindings
 #
 # Start a terminal
 bindsym $mod+Return exec $term
+bindsym $mod+Shift+Return exec $termclient
 
 # Kill focused window
 bindsym $mod+Shift+q kill
@@ -234,24 +237,6 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
-
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
-# bar {
-#     position top
-
-#     # When the status_command prints a new line to stdout, swaybar updates.
-#     # The default just shows the current date and time.
-#     status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
-
-#     colors {
-#         statusline #ffffff
-#         background #323232
-#         inactive_workspace #32323200 #32323200 #5c5c5c
-#     }
-# }
 
 # Status Bar:
 bar {
