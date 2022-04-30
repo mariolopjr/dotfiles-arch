@@ -64,22 +64,22 @@ pacstrap /mnt \
 	e2fsprogs exfat-utils dosfstools f2fs-tools ddrescue fwupd openssh \
 	git git-delta jq ddrescue bottom ctop man xdg-desktop-portal-wlr \
 	podman podman-dnsname buildah dnsmasq cifs-utils pipewire-media-session \
-	qemu qemu-arch-extra virt-install virt-viewer vagrant flatpak xdg-desktop-portal \
-	clang go nodejs shellcheck iwd dhcpcd \
+	qemu qemu-arch-extra virt-install virt-viewer vagrant xdg-desktop-portal \
+	clang go nodejs shellcheck iwd dhcpcd firejail apparmor \
 	sway swaylock swayidle rofi xorg-xwayland xorg-xlsclients mako udiskie \
 	nnn firefox bitwarden bitwarden-cli mopidy ncmpcpp zathura zathura-cb zathura-pdf-mupdf \
 	papirus-icon-theme rng-tools \
 	redshift pipewire scrot arandr x264 x265 \
-	steam
+	steam mgba-qt ppsspp pcsx2 digikam discord spotify libreoffice-fresh remmina
 
 # Install AUR packages
 arch-chroot /mnt sudo -H -u "$username" bash -c "
 	rm -rf /home/$username/paru
 
-	sudo flatpak install -y flathub net.pcsx2.PCSX2 org.ppsspp.PPSSPP io.mgba.mGBA  org.citra_emu.citra org.yuzu_emu.yuzu net.rpcs3.RPCS3 dev.bsnes.bsnes net.kuribo64.melonDS \
-		com.github.tchx84.Flatseal net.davidotek.pupgui2 org.kde.digikam com.discordapp.Discord com.spotify.Client org.libreoffice.LibreOffice org.kde.krdc
-    paru -S --noconfirm opensnitch bitwig-studio nerd-fonts-victor-mono nerd-fonts-noto protonup-git greetd greetd-wlgreet swaynagmode refind-theme-nord nordic-theme-git macchina \
-		papirus-folders-git papirus-nord nordzy-cursors mopidy-subidy mopidy-mpd
+    paru -S --noconfirm opensnitch bitwig-studio nerd-fonts-victor-mono nerd-fonts-noto bottles \
+		protonup-git protonup-qt greetd greetd-wlgreet swaynagmode refind-theme-nord nordic-theme-git macchina \
+		papirus-folders-git papirus-nord nordzy-cursors mopidy-subidy mopidy-mpd \
+		mesen-x-git bsnes-qt5 melonds citra-qt-git yuzu-mainline-bin rpcs3-bin
 	npm install -g @fsouza/prettierd write-good
 	go install mvdan.cc/sh/v3/cmd/shfmt@latest fixjson
 	pip install black isort flake8
