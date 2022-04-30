@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Install additional packages
-sudo pacman -S podman podman-dnsname buildah \
+sudo pacman -Syu --needed podman podman-dnsname buildah \
 	qemu qemu-arch-extra virt-install virt-viewer vagrant \
-	clang go nodejs shellcheck \
+	clang go nodejs shellcheck waybar wofi \
 	nnn firefox bitwarden bitwarden-cli mopidy ncmpcpp zathura zathura-cb zathura-pdf-mupdf \
 	rng-tools redshift scrot arandr x264 x265 \
 	steam mgba-qt ppsspp pcsx2 digikam discord spotifyd libreoffice-fresh remmina
