@@ -76,7 +76,7 @@ pacstrap /mnt \
 arch-chroot /mnt sudo -H -u "$username" bash -c "
 	rm -rf /home/$username/paru
 
-    paru -S --noconfirm opensnitch bitwig-studio nerd-fonts-victor-mono nerd-fonts-noto bottles \
+    paru -S --noconfirm opensnitch reaper-bin renoise-demo nerd-fonts-victor-mono nerd-fonts-noto bottles \
 		protonup-git protonup-qt greetd greetd-wlgreet swaynagmode refind-theme-nord nordic-theme-git macchina \
 		papirus-folders-git papirus-nord nordzy-cursors mopidy-subidy mopidy-mpd spotify \
 		mesen-x-git bsnes-qt5 melonds citra-qt-git yuzu-mainline-bin rpcs3-bin
