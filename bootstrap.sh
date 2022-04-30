@@ -62,30 +62,17 @@ pacstrap /mnt \
 	pacman-contrib bat ncdu pv zsh-completions watchexec tmux xclip \
 	lsof bind-tools mtr socat htop iotop openbsd-netcat strace whois \
 	e2fsprogs exfat-utils dosfstools f2fs-tools ddrescue fwupd openssh \
-	git git-delta jq ddrescue bottom ctop man xdg-desktop-portal-wlr \
-	podman podman-dnsname buildah dnsmasq cifs-utils pipewire-media-session \
-	qemu qemu-arch-extra virt-install virt-viewer vagrant xdg-desktop-portal \
-	clang go nodejs shellcheck iwd dhcpcd firejail apparmor \
-	sway swaylock swayidle rofi xorg-xwayland xorg-xlsclients mako udiskie \
-	nnn firefox bitwarden bitwarden-cli mopidy ncmpcpp zathura zathura-cb zathura-pdf-mupdf \
-	papirus-icon-theme rng-tools \
-	redshift pipewire scrot arandr x264 x265 \
-	steam mgba-qt ppsspp pcsx2 digikam discord spotifyd libreoffice-fresh remmina
+	git git-delta jq ddrescue bottom ctop man xdg-desktop-portal-wlr pipewire \
+	iwd dhcpcd firejail apparmor dnsmasq pipewire-media-session cifs-utils \
+	xdg-desktop-portal sway swaylock swayidle rofi xorg-xwayland xorg-xlsclients \
+	chezmoi mako udiskie
 
 # Install AUR packages
 arch-chroot /mnt sudo -H -u "$username" bash -c "
 	rm -rf /home/$username/paru
 
-    paru -S --noconfirm opensnitch reaper-bin renoise-demo nerd-fonts-victor-mono nerd-fonts-noto bottles \
-		protonup-git protonup-qt greetd greetd-wlgreet swaynagmode refind-theme-nord nordic-theme-git macchina \
-		papirus-folders-git papirus-nord nordzy-cursors mopidy-subidy mopidy-mpd spotify \
-		mesen-x-git bsnes-qt5 melonds citra-qt-git yuzu-mainline-bin rpcs3-bin
-	npm install -g @fsouza/prettierd write-good
-	go install mvdan.cc/sh/v3/cmd/shfmt@latest fixjson
-	pip install black isort flake8
-	cargo install stylua selene
-
-	sh -c "$(curl -fsLS chezmoi.io/get)" -- init --apply mariolopjr
+    paru -S --noconfirm nerd-fonts-victor-mono nerd-fonts-noto greetd greetd-wlgreet swaynagmode \
+		refind-theme-nord nordic-theme-git nordzy-cursors
 "
 
 cat > /mnt/etc/mopidy/mopidy.conf <<EOF

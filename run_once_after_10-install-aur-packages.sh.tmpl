@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Install additional packages from AUR
+paru -S --noconfirm opensnitch reaper-bin renoise-demo bottles protonup-git protonup-qt macchina \
+		mopidy-subidy mopidy-mpd spotify \
+		mesen-x-git bsnes-qt5 melonds citra-qt-git yuzu-mainline-bin rpcs3-bin
+
+# Install other packages
+npm install -g @fsouza/prettierd write-good
+go install mvdan.cc/sh/v3/cmd/shfmt@latest fixjson
+pip install black isort flake8
+cargo install stylua selene

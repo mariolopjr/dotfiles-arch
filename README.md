@@ -3,3 +3,6 @@ My personal dotfile repo (in case you were wondering). Can completely bootstrap 
 
 ### Bootstrap Arch Linux
 Ensure you have network connectivity, then run this `bash <(curl -sL git.io/JMnGu)` script to bootstrap the system and get dotfiles installed.
+
+### After login
+Run `chezmoi init --apply mariolopjr` which will configure dotfiles and install the rest of the packages
