@@ -70,7 +70,7 @@ pacstrap /mnt \
 	nnn firefox bitwarden bitwarden-cli mopidy ncmpcpp zathura zathura-cb zathura-pdf-mupdf \
 	papirus-icon-theme rng-tools \
 	redshift pipewire scrot arandr x264 x265 \
-	steam mgba-qt ppsspp pcsx2 digikam discord spotify libreoffice-fresh remmina
+	steam mgba-qt ppsspp pcsx2 digikam discord spotifyd libreoffice-fresh remmina
 
 # Install AUR packages
 arch-chroot /mnt sudo -H -u "$username" bash -c "
@@ -78,7 +78,7 @@ arch-chroot /mnt sudo -H -u "$username" bash -c "
 
     paru -S --noconfirm opensnitch bitwig-studio nerd-fonts-victor-mono nerd-fonts-noto bottles \
 		protonup-git protonup-qt greetd greetd-wlgreet swaynagmode refind-theme-nord nordic-theme-git macchina \
-		papirus-folders-git papirus-nord nordzy-cursors mopidy-subidy mopidy-mpd \
+		papirus-folders-git papirus-nord nordzy-cursors mopidy-subidy mopidy-mpd spotify \
 		mesen-x-git bsnes-qt5 melonds citra-qt-git yuzu-mainline-bin rpcs3-bin
 	npm install -g @fsouza/prettierd write-good
 	go install mvdan.cc/sh/v3/cmd/shfmt@latest fixjson
