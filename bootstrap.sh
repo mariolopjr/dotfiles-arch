@@ -65,7 +65,7 @@ pacstrap /mnt \
 	git git-delta jq ddrescue bottom ctop man xdg-desktop-portal-wlr pipewire \
 	iwd dhcpcd firejail apparmor dnsmasq pipewire-media-session cifs-utils \
 	xdg-desktop-portal sway swaylock swayidle rofi xorg-xwayland xorg-xlsclients \
-	chezmoi mako udiskie
+	chezmoi mako udiskie mopidy
 
 # Install AUR packages
 arch-chroot /mnt sudo -H -u "$username" bash -c "
@@ -216,4 +216,7 @@ exec "wlgreet --command $wlgreet-command --config $wlgreet-config; swaymsg exit"
 EOF
 
 # Enable services
-systemctl enable sshd greetd iwd dhcpcd mopidy --root=/mnt &>/dev/null
+for service in systemctl enable sshd greetd iwd dhcpcd mopidy
+do
+    systemctl enable "$service" --root=/mnt &>/dev/null
+done
