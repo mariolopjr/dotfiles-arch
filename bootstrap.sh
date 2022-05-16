@@ -8,22 +8,12 @@ print () {
     echo -e "\e[1m\e[93m[ \e[92m•\e[93m ] \e[4m$1\e[0m"
 }
 
-get_username () {
-    read -r -p "Please enter name for a user account: " username
-    if [ -z "$username" ]; then
-        print "You need to enter a valid username in order to continue."
-        get_username
-    fi
-}
-
 # Prepare system for install
 bash <(curl -sL git.io/JMnfF)
 
 # Enable multilib repo
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 sed -i "/\[multilib\]/,/Include/"'s/^#//' /mnt/etc/pacman.conf
-
-get_username
 
 # Install NVIDIA proprietary driver if necessary
 read -r -p "Do you want to install nvidia proprietary driver? [y/N]? " response
@@ -57,166 +47,15 @@ fi
 
 # Install packages
 pacstrap /mnt \
-	foot foot-terminfo zsh starship \
-	neovim bat ripgrep exa fd wget fzf unzip zip dialog ddcutil \
-	pacman-contrib bat ncdu pv zsh-completions watchexec tmux xclip \
-	lsof bind-tools mtr socat htop iotop openbsd-netcat strace whois \
-	e2fsprogs exfat-utils dosfstools f2fs-tools ddrescue fwupd openssh \
-	git git-delta jq ddrescue bottom ctop man xdg-desktop-portal-wlr pipewire \
-	iwd dhcpcd firejail apparmor dnsmasq pipewire-media-session cifs-utils \
-	xdg-desktop-portal sway swaylock swayidle rofi xorg-xwayland xorg-xlsclients \
-	chezmoi mako udiskie mopidy
+	foot foot-terminfo zsh chezmoi pacman-contrib fwupd openssh \
+	pipewire wireplumber firejail apparmor dnsmasq cifs-utils xdg-user-dirs \
+	xdg-desktop-portal-gnome gdm gnome-shell nautilus gnome-terminal
 
-# Install AUR packages
-arch-chroot /mnt sudo -H -u "$username" bash -c "
-	rm -rf /home/$username/paru
-
-    paru -S --noconfirm nerd-fonts-victor-mono nerd-fonts-noto greetd greetd-wlgreet swaynagmode \
-		refind-theme-nord nordic-theme-git nordzy-cursors
-"
-
-cat > /mnt/etc/mopidy/mopidy.conf <<EOF
-[core]
-cache_dir = /var/cache/mopidy
-config_dir = /etc/mopidy
-data_dir = /var/lib/mopidy
-
-[logging]
-config_file = /etc/mopidy/logging.conf
-debug_file = /var/log/mopidy/mopidy-debug.log
-
-[local]
-data_dir = /home/mario/.local/mopidy/local
-media_dir = /home/mario/media/music
-
-[m3u]
-playlists_dir = /home/mario/media/playlists
-
-[mpd]
-hostname = ::
-connection_timeout = 300
-
-[audio]
-output = tee name=t t. ! queue ! autoaudiosink t. ! queue ! audioresample ! audioconvert ! audio/x-raw,rate=44100,channels=2,format=S16LE ! wavenc ! filesink location=/tmp/mpd.fifo
-## TODO: following will make localhost:5555 
-## available as a source of data for the 
-## stereo visualizer without the fifo hack.
-# output = tee name=t ! queue ! autoaudiosink t.  ! queue ! audio/x-raw,rate=44100,channels=2,format=S16LE ! udpsink host=localhost port=6600
-mixer_volume = 70
-
-[file]
-media_dirs = /home/mario/media/music
-# follow_symlinks = false
-# metadata_timeout = 1000
-
-[podcast]
-enabled = true
-browse_root = /home/mario/media/podcasts.opml
-
-[subidy]
-url=https://musl.home.techmunchies.net
-username=mario
-password=edit_me
-
-# [youtube]
-# enabled = true
-# musicapi_enabled = true
-
-# [ytmusic]
-# enabled = true
-
-# [scrobbler]
-# enabled = true
-# username = *******
-# password = *******************
-
-# [soundcloud]
-# enabled = true
-# explore_songs = 45
-# auth_token = ********************
-EOF
-
-cat > /mnt/etc/greetd/config.toml <<EOF
-[terminal]
-vt = 1
-
-[default_session]
-command = "sway --config /etc/greetd/sway-wlgreet.conf"
-user = "greeter"
-EOF
-
-cat > /mnt/etc/greetd/wlgreet.toml <<EOF
-outputMode = "active"
-scale = 1
-
-[background]
-red = 0
-green = 0
-blue = 0
-opacity = 0.7
-EOF
-
-cat > /mnt/etc/greetd/sway-wlgreet.conf <<'EOF'
-# 
-# Settings
-#
-
-# Cursor hide delay (in ms)
-#set $cursor-delay "100"
-
-# Display sleep idle time
-#set $dispsleep-time "10"
-
-# Display sleep and wake commands
-#set $dispsleep 'swaymsg "output * dpms off"'
-#set $dispwake 'swaymsg "output * dpms on"'
-
-# The input devices worth paying attention to
-#set $touchpad "2:7:SynPS/2_Synaptics_Touchpad"
-
-# wlgreet config location
-set $wlgreet-config /etc/greetd/wlgreet.toml
-
-# wlgreet command
-set $wlgreet-command sway
-
-# waybar config location
-#set $waybar-config /etc/greetd/waybar.conf
-#set $waybar-css /etc/greetd/waybar.css
-
-# 
-# Setup
-#
-
-# Exit on Mod4+Shift+R, effectively restarting the greeter
-bindsym Mod4+Shift+r exit
-
-# Set wallpaper
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-
-# Touchpad options
-# input $touchpad {
-# 	pointer_accel 0.5
-# }
-
-# Disable Trackpoint
-#input $trackpoint events disabled
-
-# Hide cursor after delay
-#seat * hide_cursor $cursor-delay
-
-# Display sleep setup
-#exec swayidle timeout $dispsleep-time $dispsleep resume $dispwake
-
-# Start waybar
-#exec "waybar --config $waybar-config --style $waybar-css"
-
-# The greeter itself
-exec "wlgreet --command $wlgreet-command --config $wlgreet-config; swaymsg exit"
-EOF
+# Remove paru dir
+arch-chroot /mnt sudo -H -u "mario" bash -c "rm -rf /home/mario/paru"
 
 # Enable services
-for service in systemctl enable sshd greetd iwd dhcpcd mopidy
+for service in sshd gdm
 do
     systemctl enable "$service" --root=/mnt &>/dev/null
 done
