@@ -47,15 +47,12 @@ fi
 
 # Install packages
 pacstrap /mnt \
-	foot foot-terminfo zsh chezmoi pacman-contrib fwupd openssh \
-	pipewire wireplumber firejail apparmor dnsmasq cifs-utils xdg-user-dirs \
-	xdg-desktop-portal-gnome gdm gnome-shell nautilus gnome-terminal
-
-# Remove paru dir
-arch-chroot /mnt sudo -H -u "mario" bash -c "rm -rf /home/mario/paru"
+	kitty fish chezmoi pacman-contrib fwupd openssh \
+  plasma-meta plasma-wayland-session sddm-kcm \
+	pipewire wireplumber pipewire-pulse firejail apparmor dnsmasq cifs-utils
 
 # Enable services
-for service in sshd gdm
+for service in sshd sddm
 do
     systemctl enable "$service" --root=/mnt &>/dev/null
 done
